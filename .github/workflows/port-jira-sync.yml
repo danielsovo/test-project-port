@@ -11,8 +11,8 @@ on:
 
 jobs:
     run-integration:
-        runs-on: ubuntu-latest
-		timeout-minutes: 30 # Set a time limit for the job
+    runs-on: ubuntu-latest
+    timeout-minutes: 30 # Set a time limit for the job
 		
         steps:
             - name: Run jira Integration
@@ -24,5 +24,5 @@ jobs:
                 port_base_url: "https://api.port.io"
                 config: |
                     jira_host: "ENTER VALUE HERE"
-                    atlassian_user_email: ${{ secrets.atlassianUserEmail }}
-                    atlassian_user_token: ${{ secrets.atlassianUserToken }}
+                    atlassian_user_email: ${{ secrets.ATLASSIAN_USER_EMAIL }}
+                    atlassian_user_token: ${{ secrets.ATLASSIAN_USER_TOKEN }}
