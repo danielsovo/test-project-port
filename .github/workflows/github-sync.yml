@@ -1,0 +1,25 @@
+# GitHub Exporter Workflow
+# This syncs GitHub repositories and pull requests to Port
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */1 * * *"  # Runs every hour
+
+jobs:
+  run-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Run GitHub Integration
+        uses: port-labs/ocean-sail@v1
+        with:
+          type: github
+          port_client_id: ${{ secrets.PORT_CLIENT_ID }}
+          port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
+          port_base_url: "https://api.getport.io"
+          config: |
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            repositories:
+              - "danielsovo/test-project-port" 
