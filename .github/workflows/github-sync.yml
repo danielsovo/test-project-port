@@ -1,32 +1,16 @@
-name: Port GitHub Sync
-
+# .github/workflows/github-sync.yml
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */1 * * *"
-
-# Grant the GITHUB_TOKEN the right scopes to checkout code and pull GHCR images
-permissions:
-  contents: read
-  packages: read
+    - cron: "0 */1 * * *"  # every hour
 
 jobs:
   sync-github:
     name: Sync GitHub Repos & PRs
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    permissions:
-      contents: read      # for any checkout steps
-      packages: read      # to pull from ghcr.io
 
     steps:
-      - name: Authenticate to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Run GitHub Integration
         uses: port-labs/ocean-sail@v1
         with:
@@ -35,6 +19,6 @@ jobs:
           port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
           port_base_url: "https://api.getport.io"
           config: |
-            github_token: ${{ secrets.GH_PAT }}     # or ${{ secrets.GITHUB_TOKEN }}
+            github_token: ${{ secrets.GH_PAT }}   # or ${{ secrets.GITHUB_TOKEN }} for the built-in token
             repositories:
               - "danielsovo/test-project-port"
