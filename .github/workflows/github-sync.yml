@@ -1,12 +1,16 @@
-# .github/workflows/github-sync.yml
+name: Sync GitHub Repos & PRs
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */1 * * *"  # every hour
+    - cron: "0 */1 * * *"
+
+permissions:
+  contents: read       # for checking out repos
+  packages: read       # <— grants pull access to GHCR images
 
 jobs:
   sync-github:
-    name: Sync GitHub Repos & PRs
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -19,6 +23,6 @@ jobs:
           port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
           port_base_url: "https://api.getport.io"
           config: |
-            github_token: ${{ secrets.GH_PAT }}   # or ${{ secrets.GITHUB_TOKEN }} for the built-in token
+            github_token: ${{ secrets.GH_PAT }}
             repositories:
               - "danielsovo/test-project-port"
